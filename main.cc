@@ -12,6 +12,10 @@ int main() {
     int image_width = 400;
     int samples_per_pixel = 100;
     int max_depth = 50;
+    int vfov = 20;
+    point3 lookfrom = point3(-2, 2, 1);
+    point3 lookat = point3(0,0,-1);
+    vec3 vup = vec3(0,1,0);
 
     // World
     hittable_list world;
@@ -28,7 +32,6 @@ int main() {
     auto material_left   = make_shared<dielectric>(1.5);
     auto material_right  = make_shared<metal>(color(0.8, 0.6, 0.2), 0.0);
 
-
     world.add(make_shared<sphere>(point3(0,-100.5,-1), 100, material_ground));
     world.add(make_shared<sphere>(point3(0,0,-1), 0.5, material_center));
     world.add(make_shared<sphere>(point3(-1,0,-1), 0.5, material_left));    
@@ -36,7 +39,18 @@ int main() {
     world.add(make_shared<sphere>(point3(-1.0, 0.0, -1.0),-0.4, material_left));
     world.add(make_shared<sphere>(point3(1,0,-1), 0.5, material_right));    
 
-    camera cam(aspect_ratio, image_width, samples_per_pixel, max_depth);
+    // auto R = cos(pi/4);
+
+    // auto material_left  = make_shared<lambertian>(color(0,0,1));
+    // auto material_right = make_shared<lambertian>(color(1,0,0));
+
+    // world.add(make_shared<sphere>(point3(-R, 0, -1), R, material_left));
+    // world.add(make_shared<sphere>(point3( R, 0, -1), R, material_right));
+
+    camera cam(
+        aspect_ratio, image_width, samples_per_pixel, max_depth,
+        vfov, lookfrom, lookat, vup
+    );
 
     cam.render(world);
 }
