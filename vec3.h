@@ -109,6 +109,14 @@ inline vec3 unit_vector(vec3 v) {
     return v / v.length();
 }
 
+inline vec3 random_in_unit_disk() {
+    vec3 random_vector = vec3(random_double(), random_double(), 0);
+    while (random_vector.length_squared() > 1) {
+        random_vector = vec3(random_double(), random_double(), 0);
+    }
+    return random_vector;
+}
+
 inline vec3 random_in_unit_sphere() {
     vec3 random_vector = vec3::random(-1, 1);    
     while (random_vector.length_squared() > 1) {
@@ -139,6 +147,4 @@ inline vec3 refract(const vec3& uv, const vec3& n, double etai_over_etat) {
     vec3 r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.length_squared())) * n;
     return r_out_perp + r_out_parallel;
 }
-
-
 #endif
